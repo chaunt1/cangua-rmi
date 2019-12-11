@@ -32,7 +32,7 @@ public class ClientWindow extends JFrame implements Observer {
 		this.gamePanel = new GameGraphic();
 		this.playersPanel = new PlayersPanel();
 
-		this.getContentPane().add(gamePanel, BorderLayout.WEST);
+		//this.getContentPane().add(gamePanel, BorderLayout.WEST);
 		this.getContentPane().add(playersPanel, BorderLayout.EAST);
 
 		this.setResizable(false);

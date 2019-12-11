@@ -67,10 +67,10 @@ public class Dispatcher extends UnicastRemoteObject implements DispatcherInterfa
 
 				sendResultToBothPlayers(game);
 
-				if (moved == 0) {
-					game.turnPlayer().getRMIUser().opponentCanPlay(true);
-					game.getOpponentPlayer().getRMIUser().opponentCanPlay(false);
-				}
+				// if (moved == 0) {
+				// 	game.turnPlayer().getRMIUser().opponentCanPlay(true);
+				// 	game.getOpponentPlayer().getRMIUser().opponentCanPlay(false);
+				// }
 			}
 			return result;
 		} else {
@@ -82,6 +82,60 @@ public class Dispatcher extends UnicastRemoteObject implements DispatcherInterfa
 		int myStable;
 		int opponentStable;
 
-		if ()
+	}
+
+	public void sendConnectedPlayersToAllPlayers() throws RemoteException {
+		List<ReceiverInterface> connectedPlayersRMI = new ArrayList<ReceiverInterface>();
+		List<String> connectedPlayers = new ArrayList<String>();
+
+		for (Player player : this.waitingList) {
+			if (player.getRMIUser().isReady()) {
+				connectedPlayersRMI.add(player.getRMIUser());
+				connectedPlayers.add(player.getUsername());
+			}
+		}
+		for (ReceiverInterface client : connectedPlayersRMI) {
+			client.sendConnectedUsers(connectedPlayers);
+		}
+	}
+
+	@Override
+	public int connection(ReceiverInterface client, String username) throws RemoteException {
+		if (getPlayerFromName(username) == null) {
+			System.out.println(username + " joined.");
+			Player playerClient = new Player(username);
+			playerClient.setRMIUser(client);
+			this.waitingList.add(playerClient);
+			sendConnectedPlayersToAllPlayers();
+			return waitingList.size();
+		} else {
+			System.out.println(username + " : Tên người dùng đã có");
+			return 0;
+		}
+	}
+
+	public Player getPlayerFromName(String username) {
+		for (Player player : this.waitingList) {
+			if (player.getUsername().equals(username)) {
+				return player;
+			}
+		}
+		System.out.println("Không tìm thấy người dùng");
+		return null;
+	}
+
+	@Override
+	public void updateConnectedUsers() throws RemoteException {
+		this.sendConnectedPlayersToAllPlayers();
+	}
+
+	@Override
+	public boolean isUserReady(String potentialOpponent) throws RemoteException {
+		for (Entry<Player, Game> entry : this.gameList.entrySet()) {
+			if (entry.getKey().getUsername().equals(potentialOpponent)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

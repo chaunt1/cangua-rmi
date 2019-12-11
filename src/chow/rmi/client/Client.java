@@ -1,11 +1,9 @@
 package chow.rmi.client;
 
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
+import chow.rmi.client.ClientWindow;
 import chow.rmi.client.WelcomeWindow;
-import chow.rmi.client.GameSession;
 import chow.rmi.client.controller.Receiver;
 import chow.rmi.client.model.CurrentGame;
 
@@ -13,7 +11,7 @@ public class Client {
     private static WelcomeWindow welcomeView;
     private static CurrentGame model;
     private static Receiver controller;
-    private static GameSession clientView;
+    private static ClientWindow clientView;
 
     public static void main(String[] args) throws Exception {
         showConnectionWindow();
