@@ -27,24 +27,28 @@ public class WelcomeWindow extends JFrame {
     private Receiver controller;
     private JButton blogin;
     private JTextField txuser;
-    private JPanel loginPanel;
-    private JLabel username;
+    private JTextField serverIP;
+    private JPanel loginPanel, imagePanel;
+	private JLabel username, serverIPLabel;
     private int x = 0, y = 0;
 
     public WelcomeWindow() {
-        super("Connection to the Server");
+        super("Kết Nối Tới Server");
         this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         this.setBackground(Color.BLACK);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
         this.txuser = new JTextField(10);
-        this.username = new JLabel("Nick name: ");
+        this.serverIP = new JTextField(10);
+        this.username = new JLabel("Tên Người Chơi: ");
         this.username.setForeground(Color.WHITE);
+        this.serverIPLabel = new JLabel("Server IP: ");
+        this.serverIPLabel.setForeground(Color.WHITE);
 
         this.blogin = new JButton();
         this.blogin.setIcon(new ImageIcon(
-				new ImageIcon(getClass().getClassLoader().getResource("img/login.png")).getImage()
+				new ImageIcon(getClass().getResource("img/login.png")).getImage()
 						.getScaledInstance(150, 40, java.awt.Image.SCALE_SMOOTH)));
         this.blogin.setBorderPainted(false);
 
@@ -52,13 +56,15 @@ public class WelcomeWindow extends JFrame {
         this.loginPanel.setBackground(Color.BLACK);
         this.loginPanel.add(username);
         this.loginPanel.add(txuser);
+        this.loginPanel.add(serverIPLabel);
+        this.loginPanel.add(serverIP);
         this.loginPanel.add(blogin);
 
-        // JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, this.loginPanel);
-		// splitPane.setResizeWeight(0);
-		// splitPane.setEnabled(false);
-		// splitPane.setDividerSize(0);
-		// this.add(splitPane, BorderLayout.CENTER);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, this.loginPanel, imagePanel);
+		splitPane.setResizeWeight(0);
+		splitPane.setEnabled(false);
+		splitPane.setDividerSize(0);
+		this.add(splitPane, BorderLayout.CENTER);
 
 		this.setVisible(true);
 		this.setSize(600, 345);
@@ -70,6 +76,7 @@ public class WelcomeWindow extends JFrame {
 		blogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				String puname = txuser.getText();
+				String puip = serverIP.getText();
 				getController().setMyUsername(puname);
 				int connectionAttempt = getController().connect(puip);
 				if(connectionAttempt > 0) {
@@ -80,10 +87,10 @@ public class WelcomeWindow extends JFrame {
 					}
 					dispose();
 				} else if (connectionAttempt == 0){
-					JOptionPane.showMessageDialog(null,"Username already taken");
+					JOptionPane.showMessageDialog(null,"Tên Người Chơi Đã Có");
 					txuser.requestFocus();
 				} else {
-					JOptionPane.showMessageDialog(null,"Can't connect to server");
+					JOptionPane.showMessageDialog(null,"Không Thể Kết Nối Tới Server");
 				}
 			}
 		});
