@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Server",
+            "request": "launch",
+            "mainClass": "chow.rmi.server.Server",
+            "projectName": "java-rmi-cocangua"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Client",
             "request": "launch",
             "mainClass": "chow.rmi.client.Client",

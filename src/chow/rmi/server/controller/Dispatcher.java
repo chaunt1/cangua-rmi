@@ -29,8 +29,8 @@ public class Dispatcher extends UnicastRemoteObject implements DispatcherInterfa
 		this.gameList = new HashMap<Player, Game>();
 		try {
 			LocateRegistry.createRegistry(1099);
-			Naming.rebind("JMines", this);
-			System.out.println("Serveur pret");
+			Naming.rebind("CaNgua", this);
+			System.out.println("Server Sẵn Sàng");
 		} catch (final RemoteException e) {
 			System.err.println("Remote Exception " + e.getMessage());
 		} catch (final MalformedURLException e) {
@@ -57,7 +57,7 @@ public class Dispatcher extends UnicastRemoteObject implements DispatcherInterfa
 		Game game = this.gameList.get(player);
 
 		if (game != null) {
-			int result = game.move(player, p, moved);
+			int result = game.move(player, moved);
 
 			if (result >= 0) {
 				if (moved) {

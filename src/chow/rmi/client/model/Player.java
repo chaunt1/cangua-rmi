@@ -4,10 +4,13 @@ public class Player {
     private String username;
     private boolean isItMe;
     private boolean moved;
+    private boolean canMove;
 
     public Player(String username, boolean isItMe) {
         this.username = username;
         this.isItMe = isItMe;
+        this.moved = false;
+        this.canMove = false;
     }
 
     public String getUsername() {
@@ -32,5 +35,13 @@ public class Player {
 
     public boolean getMoved() {
         return this.moved;
+    }
+
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
+    }
+
+    public boolean getCanMove() {
+        return this.canMove;
     }
 }

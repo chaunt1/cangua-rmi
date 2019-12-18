@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.2.3" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
-  realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+<class-diagram version="1.2.3" icons="true" automaticImage="JPEG" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="true" dependencies="true" nesting-relationships="true" 
+  router="FAN">  
   <package id="1" language="java" name="chow.rmi.client" project="java-rmi-cocangua" 
     file="/java-rmi-cocangua/src/chow/rmi/client" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="85" y="-47"/>    

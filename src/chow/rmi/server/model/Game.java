@@ -30,7 +30,7 @@ public class Game implements Serializable {
         System.out.println("Game has started");
 	}
 
-	public int move(Player player, Point p, boolean moved) {
+	public int move(Player player, boolean moved) {
 		Player playerWhoShouldPlay = (isPlayerHostTurn() ? this.getPlayerHost() : this.getPlayerClient());
 		if (player.getUsername().equals(playerWhoShouldPlay.getUsername())) {
 			if (moved) {

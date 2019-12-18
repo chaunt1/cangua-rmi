@@ -18,6 +18,21 @@ public class CurrentGame extends Observable {
         this.opponent = new Player("", false);
     }
 
+    public void setCanMove(boolean canMove) {
+        if(!this.me.getMoved()) {
+            this.me.setCanMove(canMove);
+        } else {
+            this.me.setCanMove(false);
+        }
+        this.doNotify(this.me);
+    }
+
+    public void setMeMoved(boolean moved) {
+        this.me.setMoved(moved);
+        this.me.setCanMove(false);
+        this.doNotify(this.me);
+    }
+
     public Player getMe() {
         return me;
     }

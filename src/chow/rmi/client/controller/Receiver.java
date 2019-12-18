@@ -18,7 +18,7 @@ public class Receiver implements ReceiverInterface {
 
     public int connect(String serverIP) {
         try {
-            this.proxy = (DispatcherInterface) Naming.lookup("rmi://" + serverIP + ":1099");
+            this.proxy = (DispatcherInterface) Naming.lookup("rmi://" + serverIP + "/CaNgua");
 			int result = this.proxy.connection((ReceiverInterface)UnicastRemoteObject.exportObject(this,0), this.model.getMyUsername());
 			if (result > 0) {
 				System.out.println("Bạn là người chơi số " + result + " kết nối!\n");
