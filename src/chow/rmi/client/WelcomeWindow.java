@@ -67,7 +67,7 @@ public class WelcomeWindow extends JFrame {
 		this.add(splitPane, BorderLayout.CENTER);
 
 		this.setVisible(true);
-		this.setSize(600, 345);
+		this.setSize(300, 200);
 
 		actionlogin();
     }

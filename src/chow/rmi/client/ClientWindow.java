@@ -10,17 +10,17 @@ import java.util.List;
 import java.rmi.RemoteException;
 
 import chow.rmi.client.controller.Receiver;
-import chow.rmi.client.model.Player;
 import chow.rmi.client.PlayersPanel;
 
 public class ClientWindow extends Game implements Observer {
+	private static final long serialVersionUID = 1L;
     private static ClientWindow instance;
     private Receiver controller;
 	private PlayersPanel playersPanel;
 	private final int ONE_BONUS = -1;
     private final int NO_BONUS = 0;
 
-    private int turn, turnBonus = 0;
+	private int turn = 1, turnBonus = 0;
     private GameMap map;
     private boolean endGameFlag;
     private Die die;
@@ -81,7 +81,6 @@ public class ClientWindow extends Game implements Observer {
 			}
 			horsePhaseFlag = true;
 			int steps = die.getSteps();
-			// steps = Integer.parseInt(JOptionPane.showInputDialog(null, "Nhập steps: ", JOptionPane.INFORMATION_MESSAGE)); 
 			if(steps == 6){
 				turnBonus = ONE_BONUS;
 				this.drawXuatQuanButton(map, color);
@@ -113,32 +112,29 @@ public class ClientWindow extends Game implements Observer {
 		ClientWindow.setInstance(this);
 		this.setController(controller);
 		mainFrame.setTitle("Cờ Cá Ngựa");
-		mainFrame.setSize(1210, 910);
+		mainFrame.setSize(W_FRAME, H_FRAME);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setLayout(new BorderLayout());
+		map = new GameMap();
+		die = new Die();
+		prepareMap();
+        prepareHorse();
+        prepareDie();
+        drawMap(map);
+        drawControl(die);
+		this.playersPanel = new PlayersPanel();
+		endGameFlag = false;
+
+		mainFrame.getContentPane().add(playersPanel, BorderLayout.SOUTH);
+		mainFrame.setResizable(false);
+		this.playGame();
+		mainFrame.setVisible(true);
 		mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
                 System.exit(0);
             }
 		});
-		map = new GameMap();
-        die = new Die();
-        drawMap(map);
-        drawControl(die);
-
-        prepareMap();
-        prepareHorse();
-        prepareDie();
-		this.playersPanel = new PlayersPanel();
-        endGameFlag = false;
-
-		mainFrame.getContentPane().add(mapPanel, BorderLayout.WEST);
-		mainFrame.getContentPane().add(controlPanel, BorderLayout.CENTER);
-		mainFrame.getContentPane().add(playersPanel, BorderLayout.EAST);
-		mainFrame.setResizable(false);
-		mainFrame.setVisible(true);
-		this.playGame();
     }
 
 	private final int point[] = {0, 6, 12, 14, 20, 26, 28, 34, 40, 42, 48, 54, 56};
@@ -223,7 +219,7 @@ public class ClientWindow extends Game implements Observer {
 			}
 		}
 
-		JButton throwButton = new JButton("Đổ");
+		JButton throwButton = new JButton("Tung XX");
 
 		throwButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -396,13 +392,11 @@ public class ClientWindow extends Game implements Observer {
     @Override
 	public void update(Observable arg0, Object message) {
 		if (message instanceof List) {
-			//change on connected users
 			this.getPlayersPanel().update(arg0, message);
         }
-        // else if (message instanceof Player || message instanceof Boolean) {
-		// 	//change on game panel
-		// 	this.getGamePanel().update(arg0, message);
-		// }
+        else if (message instanceof Player || message instanceof Boolean) {
+			this.update(arg0, message);
+		}
     }
 
     public Receiver getController() {
